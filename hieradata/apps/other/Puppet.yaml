@@ -1,0 +1,107 @@
+---
+
+classes:
+  - 'profiles::puppet::master'
+  - profiles::apache
+
+
+profiles::linux::packages:
+  rubygems: {}
+  hiera-eyaml:
+    provider: gem
+  hiera-eyaml:
+    provider: puppet_gem
+  r10k:
+    provider: gem
+  r10k:
+    provider: puppet_gem
+
+# YUM REPOSITORIES
+profiles::linux::yumrepos::repos:
+
+  rhel-7-server-rpms-satellite:
+    descr: 'Red Hat Enterprise Linux 7 Server (RPMs) (Local Satellite Cache)'
+    baseurl: 'http://satellite/yum-snapshots/RHEL7Server-x86_64/latest/rhel-7-server-rpms/'
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release'
+
+  rhel-7-server-optional-satellite:
+    descr: 'Red Hat Enterprise Linux 7 Server (Optional) (Local Satellite Cache)'
+    baseurl: 'http://satellite/yum-snapshots/RHEL7Server-x86_64/latest/rhel-7-server-optional-rpms/'
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release'
+
+
+
+# FIREWALLD Services
+profiles::linux::firewall::services:
+  http:
+    service: http
+  https:
+    service: https
+
+
+# FIREWALLD Ports
+profiles::linux::firewall::ports:
+  puppetserver:
+    port: 8140
+  mcollective:
+    port: 61613
+
+
+# CRON
+profiles::linux::cron:
+  r10k:
+    command: '/sbin/pidof -x r10k > /dev/null || /opt/puppetlabs/bin/r10k deploy environment -v -p  > /var/log/r10k.log 2>&1'
+    user: root
+    minute: '*/5'
+
+
+
+
+# APACHE MODULES
+profiles::apache::modules:
+  - proxy
+  - proxy_html
+
+
+# APACHE VHOSTS
+profiles::apache::vhosts:
+  default_http:
+    port: 80
+    docroot: '/var/www/html' 
+    access_log_file: 'access_log'
+    priority: '15'
+
+    aliases:
+      - 'cgi-bin':
+        scriptalias: '/cgi-bin'
+        path: '/var/www/cgi-bin'
+
+    proxy_pass:
+      - 'files proxy pass':
+        path: '/files'
+        url: 'http://files:80/'
+      - 'nuget proxy pass':
+        path: '/nuget'
+        url: 'http://nuget:80/'
+      - 'satellite proxy pass':
+        path: '/satellite'
+        url: 'http://satellite:80/'
+    custom_fragment: |
+      <Location /files>
+      SetOutputFilter  proxy-html
+      ProxyHTMLURLMap http://files:80 /files/
+      ProxyHTMLURLMap / /files/
+      </Location>
+      
+      <Location /nuget>
+      SetOutputFilter  proxy-html
+      ProxyHTMLURLMap http://nuget:80 /nuget/
+      ProxyHTMLURLMap / /nuget/
+      </Location>
+      
+      <Location /satellite>
+      SetOutputFilter  proxy-html
+      ProxyHTMLURLMap http://satellite:80 /satellite/
+      ProxyHTMLURLMap / /satellite/
+      </Location>
+ 

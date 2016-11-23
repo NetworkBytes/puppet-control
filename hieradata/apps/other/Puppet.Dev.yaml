@@ -1,0 +1,11 @@
+---
+
+
+
+# SUDOERS
+profiles::linux::sudoers:
+  projects_r10k:
+    content:
+      - 'Cmnd_Alias PUPPET_R10K_CMD = /usr/local/bin/r10k *'
+      - '%<REDACTED> ALL=NOPASSWD: PUPPET_R10K_CMD'
+

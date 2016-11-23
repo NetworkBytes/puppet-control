@@ -1,0 +1,24 @@
+---
+
+
+##### USER MANAGEMENT - SYSADMINS
+linux_users_sysadmin:
+  usera:
+    uid: 5000
+    comment: <REDACTED>
+    password: <REDACTED>
+
+
+
+
+
+############
+# SSH KEYS #
+############
+
+profiles::linux::local_users::authorized_keys:
+
+  'usera@company':
+    type: 'ssh-rsa'
+    key: <REDACTED>
+    user: 'usera'

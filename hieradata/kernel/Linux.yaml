@@ -1,0 +1,230 @@
+---
+
+profiles::linux::aliases:
+  root:
+    value: '<REDACTED>'
+
+
+
+# ROOT PASSWORD
+profiles::linux::rootpwd::password:  <REDACTED>
+
+
+
+# DEFAULT LINUX PACKAGES
+profiles::linux::packages:
+  cifs-utils: {}
+  screen: {}
+  bash-completion: {}
+  wget: {}
+  traceroute: {}
+  tmpwatch: {}
+  rsync: {}
+  crontabs: {}
+  logwatch: {}
+  bind-utils: {}
+  unzip: {}
+  telnet: {}
+  hping3: {}
+
+
+# LINUX GROUPS
+profiles::linux::local_groups:
+  sysadmin: {}
+  #  gid: 10001
+  #developers:
+  #  gid: 10003
+  #dba:
+  #  gid: 10004
+
+
+# CRON - sample
+profiles::linux::cron:
+  sample:
+    command: '# sample puppet cron'
+    user: root
+    minute: '*/5'
+
+
+
+# HOSTS
+profiles::linux::hosts:
+  localhost_ipv4:
+    name: localhost
+    ip: 127.0.0.1
+    host_aliases:
+      - localhost.localdomain
+      - localhost4
+      - localhost4.localdomain4
+  localhost_ipv6:
+    name: localhost6
+    ip: '::1'
+    host_aliases:
+      - localhost6.localdomain6
+  hostname:
+    name: '%{hostname}'
+    comment: machines hostname and fqdn point to loopback
+    ip: 127.0.0.1
+    host_aliases:
+      - '%{fqdn}'
+
+
+
+# NTP
+profiles::linux::ntp::servers:
+  - 'ntp1'
+  - 'ntp2'
+
+
+# SELINUX
+profiles::linux::selinux::mode: enforcing
+
+# SELINUX FCONTEXTS
+profiles::linux::selinux::fcontexts:
+  # bug in nrpe check_disk package, missing selinux context
+  # context might have to be nagios_checkdisk_plugin_exec_t
+  nrpe_check_disk_context:
+    pathname: /usr/lib/nagios/plugins/check_disk
+    context: nagios_unconfined_plugin_exec_t
+
+
+# RSYSLOG CLIENT
+profiles::rsyslog::client::server: loghost%{host.site_number}
+
+
+# PROXY
+profiles::linux::proxy::yum::enabled: true
+profiles::linux::proxy::yum::proxy_address: 'proxy:3128'
+profiles::linux::proxy::profiles::enabled: true
+profiles::linux::proxy::profiles::proxy_address: 'proxy:3128'
+profiles::linux::proxy::bypass:
+  - '127.0.0.1'
+  - 'localhost'
+  - 'puppet'
+
+
+# YUM REPOSITORIES
+profiles::linux::yumrepos::epel_proxy: "%{hiera('profiles::linux::proxy::profiles::proxy_address')}"
+profiles::linux::yumrepos::repos:
+
+  rhel-7-server-rpms-local:
+    descr: 'Red Hat Enterprise Linux 7 Server (RPMs) (Local Satellite1-1 Cache)' 
+    baseurl: 'http://puppet/satellite/yum-snapshots/RHEL7Server-x86_64/latest/rhel-7-server-rpms/'
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release'
+    proxy: '_none_'
+
+  rhel-7-server-thirdparty-oracle-java-rpms-local:
+    descr: 'Red Hat Enterprise Linux 7 Server ThirdParty Oracle Java (RPMs) (Local Satellite1-1 Cache)'
+    baseurl: 'http://puppet/satellite/yum-snapshots/RHEL7Server-x86_64/latest/rhel-7-server-thirdparty-oracle-java-rpms/'
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release'
+    proxy: '_none_'
+
+
+  puppetlabs-pc1:
+    descr: 'Puppet Labs PC1 Repository el 7 - $basearch'
+    baseurl: 'http://yum.puppetlabs.com/el/7/PC1/$basearch'
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs'
+
+  #puppetlabs-pc1-source:
+  #  descr: 'Puppet Labs PC1 Repository el 7 - Source'
+  #  baseurl: 'http://yum.puppetlabs.com/el/7/PC1/SRPMS'
+  #  gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs'
+  #  enabled: 0
+
+
+  
+# SNMP
+profiles::linux::snmpd::ro_community: '<REDACTED>'
+profiles::linux::snmpd::ro_network: '<REDACTED>'
+profiles::linux::snmpd::contact: '<REDACTED>'
+profiles::linux::snmpd::location: '<REDACTED>'
+
+
+
+# TIMEZONE
+profiles::linux::timezone::zone: 'Australia/Sydney'
+
+
+# SUDOERS default groups which will be applied to **ALL** host
+profiles::linux::sudoers:
+  puppetagent:
+    content:
+      - 'Cmnd_Alias PUPPETAGENT_CMD = /usr/local/bin/puppet agent *'
+      - 'ALL ALL=NOPASSWD: PUPPETAGENT_CMD'
+  domainiadmin_domain:
+    content: '%%{hiera("profiles::linux::auth::domain")}\\Domain\ Admins   ALL=(ALL)  ALL'
+
+
+# AD AUTHENTICATION
+profiles::linux::auth::enable: true
+profiles::linux::auth::computer_ou: OU=Linux Computers
+
+# SSH access group
+profiles::linux::sshd::allowgroups:
+  - '"domain admins"'
+
+
+# SSH default groups which will be applied to **ALL** host
+profiles::linux::sshd::authorizedkeysfile: '/etc/ssh/authorized_keys/%u/authorized_keys'
+ 
+# DEFAULT GROUPS OF USERS to include on **ALL** hosts
+profiles::linux::authorized_keys::authorized_keys_base: '/etc/ssh/authorized_keys'
+profiles::linux::local_users::include_users_in_group:
+  - sysadmin
+
+
+# DIRECTORIES
+profiles::linux::directories:
+  /opt: {}
+  
+
+# FIREWALLD Services
+profiles::linux::firewall::services:
+  ssh:
+    service: ssh
+
+
+# FIREWALLD Ports
+profiles::linux::firewall::ports:
+  nrpe:
+    port: 5666
+  snmp:
+    port: 161
+    protocol: udp
+
+# VIM
+profiles::linux::vim::options:
+  - 'hlsearch'
+  - 'showcmd'
+  - 'showmatch'
+  - 'ignorecase'
+  - 'smartcase'
+  - 'incsearch'
+  - 'autowrite'
+  - 'hidden'
+  - 'number'
+  - 'paste'
+  - 'tabstop=2'
+  - 'expandtab'
+
+
+# NAGIOS CLIENT - NRPE Allowed hosts
+profiles::nagios::client::allowed_hosts:
+ - <REDACTED>
+ - 127.0.0.1
+
+profiles::nagios::checks::builtin:
+  conntrack: {}
+  cpu: {}
+  disk: {}
+  load: {}
+  ntp_time:
+    args: '-H ntp' 
+  #ping: {}
+  #ping6: {}
+  ram: {}
+  swap: {}
+
+profiles::nagios::checks::custom:
+  users:
+    args: '-w 100 -c 200'

@@ -1,0 +1,40 @@
+---
+
+#classes:
+#  - profiles::rsyslog::server
+
+
+# RSYSLOG Log location - remember selinux if changing path
+#profiles::rsyslog::server::server_dir: '/var/log/rsyslog/'
+
+
+#profiles::linux::directories:
+#  /opt/log: {}
+
+profiles::linux::firewall::ports:
+  rsyslog_relp:
+    port: 20514
+  rsyslog_conn:
+    port: 601
+  rsyslog_tcp:
+    port: 514
+  rsyslog_udp:
+    port: 514
+    protocol: udp
+
+
+# SPUNK USER (this is used by the forwarder and should be on syslog server)
+
+linux_users_splunk:
+  splunk:
+    shell: /bin/sh
+    comment: "Splunk Server"
+    home: /opt/splunkforwarder
+
+profiles::linux::local_groups:
+  splunk: {}
+
+profiles::linux::local_users::include_users_in_group:
+  - splunk
+
+
