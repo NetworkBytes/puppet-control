@@ -2,18 +2,18 @@
 
 profiles::linux::aliases:
   root:
-    value: '<REDACTED>'
+    value: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/bkr9/gkJC3gWZAAAAG8wbQYJKoZIhvcNAQcGoGAwXgIBADBZBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDHpy4zRiPUmoRkN3UQIBEIAszjsdMlJRCkCUFdvmnmEU4i70TDfHcqxShBawGuOhZK1zBrLUW27aTL8oEek=]
 
 
 
 # ROOT PASSWORD
-profiles::linux::rootpwd::password:  <REDACTED>
+profiles::linux::rootpwd::password: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/bkr9/gkJC3gWZAAAAGowaAYJKoZIhvcNAQcGoFswWQIBADBUBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDLf9TaCluG6Lkhi8TgIBEIAnfMOpM7Yo6WoRECAHWitH4G4iGEjiuegh7X9EMw29FcCoHg8laZPd]
 
 
 
 # DEFAULT LINUX PACKAGES
 profiles::linux::packages:
-  cifs-utils: {}
+  #cifs-utils: {}
   screen: {}
   bash-completion: {}
   wget: {}
@@ -21,7 +21,7 @@ profiles::linux::packages:
   tmpwatch: {}
   rsync: {}
   crontabs: {}
-  logwatch: {}
+  #logwatch: {}
   bind-utils: {}
   unzip: {}
   telnet: {}
@@ -32,18 +32,14 @@ profiles::linux::packages:
 profiles::linux::local_groups:
   sysadmin: {}
   #  gid: 10001
-  #developers:
-  #  gid: 10003
-  #dba:
-  #  gid: 10004
 
 
 # CRON - sample
-profiles::linux::cron:
-  sample:
-    command: '# sample puppet cron'
-    user: root
-    minute: '*/5'
+#profiles::linux::cron:
+#  sample:
+#    command: '# sample puppet cron'
+#    user: root
+#    minute: '*/5'
 
 
 
@@ -72,8 +68,10 @@ profiles::linux::hosts:
 
 # NTP
 profiles::linux::ntp::servers:
-  - 'ntp1'
-  - 'ntp2'
+  - '0.au.pool.ntp.org'
+  - '1.au.pool.ntp.org'
+  - '2.au.pool.ntp.org'
+  - '3.au.pool.ntp.org'
 
 
 # SELINUX
@@ -93,51 +91,49 @@ profiles::rsyslog::client::server: loghost%{host.site_number}
 
 
 # PROXY
-profiles::linux::proxy::yum::enabled: true
-profiles::linux::proxy::yum::proxy_address: 'proxy:3128'
-profiles::linux::proxy::profiles::enabled: true
-profiles::linux::proxy::profiles::proxy_address: 'proxy:3128'
-profiles::linux::proxy::bypass:
-  - '127.0.0.1'
-  - 'localhost'
-  - 'puppet'
+profiles::linux::proxy::yum::enabled: false
+#profiles::linux::proxy::yum::proxy_address: 'proxy:3128'
+profiles::linux::proxy::profiles::enabled: false
+#profiles::linux::proxy::profiles::proxy_address: 'proxy:3128'
+#profiles::linux::proxy::bypass:
+#  - '127.0.0.1'
+#  - 'localhost'
+#  - 'puppet'
 
 
 # YUM REPOSITORIES
-profiles::linux::yumrepos::epel_proxy: "%{hiera('profiles::linux::proxy::profiles::proxy_address')}"
+#profiles::linux::yumrepos::epel_proxy: "%{hiera('profiles::linux::proxy::profiles::proxy_address')}"
 profiles::linux::yumrepos::repos:
-
-  rhel-7-server-rpms-local:
-    descr: 'Red Hat Enterprise Linux 7 Server (RPMs) (Local Satellite1-1 Cache)' 
-    baseurl: 'http://puppet/satellite/yum-snapshots/RHEL7Server-x86_64/latest/rhel-7-server-rpms/'
-    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release'
-    proxy: '_none_'
-
-  rhel-7-server-thirdparty-oracle-java-rpms-local:
-    descr: 'Red Hat Enterprise Linux 7 Server ThirdParty Oracle Java (RPMs) (Local Satellite1-1 Cache)'
-    baseurl: 'http://puppet/satellite/yum-snapshots/RHEL7Server-x86_64/latest/rhel-7-server-thirdparty-oracle-java-rpms/'
-    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release'
-    proxy: '_none_'
-
 
   puppetlabs-pc1:
     descr: 'Puppet Labs PC1 Repository el 7 - $basearch'
     baseurl: 'http://yum.puppetlabs.com/el/7/PC1/$basearch'
     gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs'
 
-  #puppetlabs-pc1-source:
-  #  descr: 'Puppet Labs PC1 Repository el 7 - Source'
-  #  baseurl: 'http://yum.puppetlabs.com/el/7/PC1/SRPMS'
-  #  gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs'
-  #  enabled: 0
+  base:
+    descr: 'CentOS-$releasever - Base'
+    mirrorlist: 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra'
+    gpgcheck: 1
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7'
+  updates:
+    descr: 'CentOS-$releasever - Updates'
+    mirrorlist: 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra'
+    gpgcheck: 1
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7'
+  extras:
+    descr: 'CentOS-$releasever - Extras'
+    mirrorlist: 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra'
+    gpgcheck: 1
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7'
+
 
 
   
 # SNMP
-profiles::linux::snmpd::ro_community: '<REDACTED>'
-profiles::linux::snmpd::ro_network: '<REDACTED>'
-profiles::linux::snmpd::contact: '<REDACTED>'
-profiles::linux::snmpd::location: '<REDACTED>'
+#profiles::linux::snmpd::ro_community: '<REDACTED>'
+#profiles::linux::snmpd::ro_network: '<REDACTED>'
+#profiles::linux::snmpd::contact: '<REDACTED>'
+#profiles::linux::snmpd::location: '<REDACTED>'
 
 
 
@@ -151,17 +147,18 @@ profiles::linux::sudoers:
     content:
       - 'Cmnd_Alias PUPPETAGENT_CMD = /usr/local/bin/puppet agent *'
       - 'ALL ALL=NOPASSWD: PUPPETAGENT_CMD'
-  domainiadmin_domain:
-    content: '%%{hiera("profiles::linux::auth::domain")}\\Domain\ Admins   ALL=(ALL)  ALL'
+  #domainiadmin_domain:
+  #  content: '%%{hiera("profiles::linux::auth::domain")}\\Domain\ Admins   ALL=(ALL)  ALL'
 
 
-# AD AUTHENTICATION
-profiles::linux::auth::enable: true
-profiles::linux::auth::computer_ou: OU=Linux Computers
+# SSSD AUTHENTICATION
+profiles::linux::auth::enable: false
+#profiles::linux::auth::computer_ou: OU=Linux Computers
 
 # SSH access group
 profiles::linux::sshd::allowgroups:
-  - '"domain admins"'
+  - '"sysdamin"'
+  #- '"domain admins"'
 
 
 # SSH default groups which will be applied to **ALL** host
@@ -188,9 +185,9 @@ profiles::linux::firewall::services:
 profiles::linux::firewall::ports:
   nrpe:
     port: 5666
-  snmp:
-    port: 161
-    protocol: udp
+  #snmp:
+  #  port: 161
+  #  protocol: udp
 
 # VIM
 profiles::linux::vim::options:
@@ -210,7 +207,7 @@ profiles::linux::vim::options:
 
 # NAGIOS CLIENT - NRPE Allowed hosts
 profiles::nagios::client::allowed_hosts:
- - <REDACTED>
+ #- <REDACTED>
  - 127.0.0.1
 
 profiles::nagios::checks::builtin:
