@@ -1,5 +1,16 @@
 ---
 
+# FIX THESE MODULES
+profiles::linux::base::include_proxy: false
+profiles::linux::base::include_aliases: false
+profiles::linux::base::include_resolvconf: false
+profiles::linux::base::include_snmpd: false
+profiles::linux::base::include_nagios_client: false
+
+
+
+
+
 profiles::linux::aliases:
   root:
     value: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/bkr9/gkJC3gWZAAAAG8wbQYJKoZIhvcNAQcGoGAwXgIBADBZBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDHpy4zRiPUmoRkN3UQIBEIAszjsdMlJRCkCUFdvmnmEU4i70TDfHcqxShBawGuOhZK1zBrLUW27aTL8oEek=]

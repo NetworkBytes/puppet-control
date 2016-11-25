@@ -11,7 +11,6 @@ class profiles::linux::base (
   Boolean $include_local_groups = true,
   Boolean $include_local_users  = true,
   Boolean $include_ntp          = true,
-  Boolean $include_certs        = true,
   Boolean $include_snmpd        = true,
   Boolean $include_sshd         = true,
   Boolean $include_authorized_keys = true,
@@ -22,7 +21,6 @@ class profiles::linux::base (
   Boolean $include_selinux      = true,
   Boolean $include_timezone     = true,
   Boolean $include_vim          = true,
-  Boolean $include_mcafee       = true,
   Boolean $include_auth         = true,
 
   Boolean $include_rsyslog_client = true,
@@ -45,7 +43,6 @@ class profiles::linux::base (
   if $include_local_groups { include profiles::linux::local_groups }
   if $include_local_users  { include profiles::linux::local_users }
   if $include_ntp          { include profiles::linux::ntp }
-  if $include_certs        { include profiles::linux::certs }
   if $include_snmpd        { include profiles::linux::snmpd }
   if $include_sshd         { include profiles::linux::sshd }
   if $include_authorized_keys { include profiles::linux::authorized_keys }
@@ -56,7 +53,6 @@ class profiles::linux::base (
   if $include_selinux      { include profiles::linux::selinux }
   if $include_timezone     { include profiles::linux::timezone }
   if $include_vim          { include profiles::linux::vim }
-  if $include_mcafee       { include profiles::linux::mcafee }
   if $include_auth         { include profiles::linux::auth }
 
   if $include_rsyslog_client { include profiles::rsyslog::client }
