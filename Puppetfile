@@ -46,10 +46,6 @@ mod 'mount_iso',
   :branch => 'master'
 
 
-mod 'mssql2012',
-  :git    => 'https://github.com/NetworkBytes/puppet-mssql2012.git',
-  :branch => 'master'
-
 
 mod 'nagios',
   :git    => 'https://github.com/jbencic/puppet-nagios',
@@ -79,11 +75,6 @@ mod 'nsclient_files',
 mod 'puppetlabs/ntp'
 
 
-mod 'packages',
-  :git    => 'https://github.com/NetworkBytes/puppet-packages.git',
-  :branch => 'master'
-
-
 mod 'puppetlabs/powershell'
 
 
@@ -110,9 +101,6 @@ mod 'jfryman/selinux'
 mod 'razorsedge/snmp'
 
 
-mod 'sqlserver',
-  :git    => 'https://github.com/NetworkBytes/puppet-sqlserver.git',
-  :branch => 'master'
 
 
 mod 'saz/ssh'
