@@ -123,8 +123,7 @@ mod 'net_share',
 
 
 mod 'nrpe',
-  :commit => '9431e7e99c29cf8f9efb3e19781867abd3d82f4b',
-  :git    => 'ssh://git@stash<REDACTED>:7999/comit/puppet-nrpe.git',
+  :git    => 'https://github.com/NetworkBytes/puppet-linux_nrpe'
   :branch => 'master'
 
 
