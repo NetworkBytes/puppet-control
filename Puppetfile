@@ -80,8 +80,7 @@ mod 'linux_iptables',
 
 
 mod 'linux_proxy',
-  :commit => 'bd2760fd1339edc2ec06012fb4360041407e3af3',
-  :git    => 'ssh://git@stash<REDACTED>:7999/comit/puppet-linux_proxy.git',
+  :git    => 'https://github.com/NetworkBytes/puppet-linux_proxy',
   :branch => 'master'
 
 
