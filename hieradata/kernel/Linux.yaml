@@ -25,7 +25,7 @@ profiles::linux::rootpwd::password: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/
 # DEFAULT LINUX PACKAGES
 profiles::linux::packages:
   #cifs-utils: {}
-  screen: {}
+  #screen: {}
   bash-completion: {}
   wget: {}
   traceroute: {}
@@ -41,8 +41,7 @@ profiles::linux::packages:
 
 # LINUX GROUPS
 profiles::linux::local_groups:
-  sysadmin: {}
-  #  gid: 10001
+  admins: {}
 
 
 # CRON - sample
@@ -158,6 +157,8 @@ profiles::linux::sudoers:
     content:
       - 'Cmnd_Alias PUPPETAGENT_CMD = /usr/local/bin/puppet agent *'
       - 'ALL ALL=NOPASSWD: PUPPETAGENT_CMD'
+  admins:
+    content: '%admins   ALL=(ALL)  ALL'
   #domainiadmin_domain:
   #  content: '%%{hiera("profiles::linux::auth::domain")}\\Domain\ Admins   ALL=(ALL)  ALL'
 
@@ -178,7 +179,7 @@ profiles::linux::sshd::authorizedkeysfile: '/etc/ssh/authorized_keys/%u/authoriz
 # DEFAULT GROUPS OF USERS to include on **ALL** hosts
 profiles::linux::authorized_keys::authorized_keys_base: '/etc/ssh/authorized_keys'
 profiles::linux::local_users::include_users_in_group:
-  - sysadmin
+  - admins
 
 
 # DIRECTORIES
@@ -196,9 +197,6 @@ profiles::linux::firewall::services:
 profiles::linux::firewall::ports:
   nrpe:
     port: 5666
-  #snmp:
-  #  port: 161
-  #  protocol: udp
 
 # VIM
 profiles::linux::vim::options:
