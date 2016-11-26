@@ -70,8 +70,7 @@ mod 'puppet/iis',
 
 
 mod 'linux_aliases',
-  :commit => 'e9cb359ef43d1d2bce5d22871566d1f22fad2b93',
-  :git    => 'ssh://git@stash<REDACTED>:7999/comit/puppet-linux_aliases.git',
+  :git    => 'ssh://https://github.com/NetworkBytes/puppet-linux_aliases',
   :branch => 'master'
 
 
