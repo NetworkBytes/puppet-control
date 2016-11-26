@@ -1,11 +1,11 @@
 ---
 
 # FIX THESE MODULES
-profiles::linux::base::include_proxy: false
-profiles::linux::base::include_aliases: false
+#profiles::linux::base::include_proxy: false
+#profiles::linux::base::include_aliases: false
 profiles::linux::base::include_resolvconf: false
 profiles::linux::base::include_snmpd: false
-profiles::linux::base::include_nagios_client: false
+#profiles::linux::base::include_nagios_client: false
 
 
 
