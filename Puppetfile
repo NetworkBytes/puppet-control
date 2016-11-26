@@ -123,7 +123,7 @@ mod 'net_share',
 
 
 mod 'nrpe',
-  :git    => 'https://github.com/NetworkBytes/puppet-linux_nrpe'
+  :git    => 'https://github.com/NetworkBytes/puppet-linux_nrpe',
   :branch => 'master'
 
 
