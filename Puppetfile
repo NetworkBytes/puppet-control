@@ -75,8 +75,7 @@ mod 'linux_aliases',
 
 
 mod 'linux_iptables',
-  :commit => 'f4203bc820fa67b4ab6b10ed0a5bf8d6aa39b759',
-  :git    => 'ssh://git@stash<REDACTED>:7999/comit/puppet-linux_iptables.git',
+  :git    => 'https://github.com/NetworkBytes/puppet-linux_iptables',
   :branch => 'master'
 
 
