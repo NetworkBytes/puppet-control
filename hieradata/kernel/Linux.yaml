@@ -1,11 +1,9 @@
 ---
 
 # FIX THESE MODULES
-#profiles::linux::base::include_proxy: false
 #profiles::linux::base::include_aliases: false
 profiles::linux::base::include_resolvconf: false
 profiles::linux::base::include_snmpd: false
-#profiles::linux::base::include_nagios_client: false
 
 
 
@@ -24,8 +22,6 @@ profiles::linux::rootpwd::password: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/
 
 # DEFAULT LINUX PACKAGES
 profiles::linux::packages:
-  #cifs-utils: {}
-  #screen: {}
   bash-completion: {}
   wget: {}
   traceroute: {}
@@ -169,7 +165,7 @@ profiles::linux::auth::enable: false
 
 # SSH access group
 profiles::linux::sshd::allowgroups:
-  - '"sysdamin"'
+  - '"admins"'
   #- '"domain admins"'
 
 
