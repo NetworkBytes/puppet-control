@@ -129,6 +129,121 @@ end
 
 
 
+#################
+# aws instances #
+#################
+
+if Facter.value(:ec2_metadata)
+
+  Facter.add('host') do
+    setcode do
+
+      host   = {}
+      _env   = HostFact.arrHost[1] #eg dev2-
+      _name  = HostFact.arrHost[2] #eg somewebserver
+      _site_num = HostFact.arrHost[3] #eg 1
+      _node_num = HostFact.arrHost[4] #eg 2
+
+
+      #Naming Standard
+      host['naming_standard'] = "AWS"
+
+      #Domain
+      case _env + _name
+
+        when /^(prod-|p-)/ then host['domain'] ='<REDACTED>'
+
+        else host['domain'] ='unknown_domain:'
+      end
+
+
+      #Environment
+      host['environment_raw'] = _env.tr('-', '')
+      case _env + _name
+
+        # Generic default entries
+        when /^(d\d?-|dev)/  then host['environment'] = 'Dev'
+        when /^(t\d?-|test)/ then host['environment'] = 'Test'
+        when /^(u-|uat)/  then host['environment'] = 'UAT'
+        when /^(prod|p-)/ then host['environment'] = 'Production'
+
+        else host['environment'] = 'other'
+      end
+
+
+      #Tier
+      case _name
+        when /web/ then host['tier'] = 'Web'
+        when /app/ then host['tier'] = 'App'
+        when /db/  then host['tier'] = 'Database'
+        when /b2b/          then host['tier'] = 'DMZ'
+        else host['tier'] = 'unknown_tier'
+      end
+
+
+
+
+      #Application
+      case _name
+        when /AppA(web|app|db)/ then host['application'] = '<REDACTED>'
+
+        else host['application'] = 'other'
+      end
+
+
+      #Role
+      case _name
+        when /puppet/ then host['role'] = 'Puppet'
+        when /nagios/ then host['role'] = 'Nagios'
+        when /syslog/ then host['role'] = 'Syslog'
+        else host['role'] = 'unknown_role'
+
+      end
+
+      #Region
+      host['region'] = Facter.value(:ec2_metadata)['placement']['availability-zone'][0..-2] 
+      #Site
+      host['site']   = Facter.value(:ec2_metadata)['placement']['availability-zone']    
+
+      host['site_number'] = _site_num
+
+
+      #Node Number
+      host['node_number'] = _node_num
+
+
+      host
+    end
+  end
+end
+
+
+
+
+
+# catch-all defaults
+
+Facter.add('host') do
+    setcode do
+      {
+        'naming_standard' => 'unconfigured',
+        'domain' => 'unconfigured',
+        'environment' => 'unconfigured',
+        'role' => 'unconfigured',
+        'tier' => 'unconfigured',
+        'site' => 'unconfigured',
+        'site_number' => 'unconfigured',
+        'node_number' => 'unconfigured',
+      }
+
+  end
+end
+
+
+
+
+
+
 # catch-all defaults
 
 Facter.add('host') do
