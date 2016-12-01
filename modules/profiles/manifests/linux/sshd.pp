@@ -19,7 +19,6 @@ class profiles::linux::sshd (
       'PasswordAuthentication' => 'yes',
       'PermitRootLogin'    => 'no',
       'AuthorizedKeysFile' => $authorizedkeysfile,
-      'AcceptEnv'          => 'LANG LC_*',
       'Subsystem'          => 'sftp /usr/libexec/openssh/sftp-server',
       'UsePAM'             => 'yes',
       'AllowTcpForwarding' => 'no',

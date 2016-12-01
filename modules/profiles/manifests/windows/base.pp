@@ -17,11 +17,8 @@ class profiles::windows::base (
   Boolean $include_firewall      = true,
   Boolean $include_winrm         = true,
   Boolean $include_rpc           = true,
+  Boolean $include_puppet_agent  = true
 
-  Boolean $include_puppet_agent  = true,
-
-  Boolean $include_<REDACTED>_certificates = true,
-  Boolean $include_<REDACTED>_localsecuritypolicy = true
 
 ) {
 
@@ -49,13 +46,7 @@ class profiles::windows::base (
   if $include_puppet_agent   { include profiles::puppet::agent }
 
   
-  #TODO below
-  if $include_<REDACTED>_certificates { include <REDACTED>::certificates }
 
-  #if $include_<REDACTED>_localsecuritypolicy { include <REDACTED>::localsecuritypolicy }
-
-  # push all monitoring via nsclient 
-  ##   winconfig::snmp {"$title": ensure => 'enabled', community => 'readonly', permittedmanagers => '<REDACTED>' }
 
 }
 

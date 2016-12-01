@@ -2,10 +2,10 @@ class profiles::oracle::client (
   $oracle_home,
   $crypto_seed,
 
-  $<REDACTED>_datasource,
-  $<REDACTED>_host,
-  $<REDACTED>_port,
-  $<REDACTED>_servicename,
+  $datasource,
+  $host,
+  $port,
+  $servicename,
   
 ) {
 

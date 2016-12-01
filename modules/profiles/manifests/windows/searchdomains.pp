@@ -23,7 +23,7 @@ class profiles::windows::searchdomains(
     data  => $list,
   }
 
-
+}
 
 
 # HOST ENTRIES
