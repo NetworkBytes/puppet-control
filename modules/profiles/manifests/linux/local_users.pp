@@ -18,7 +18,7 @@ class profiles::linux::local_users (
         purge => true,
         unless_system_user => true,
         #noop  => true,
-    }  
+    }
   }
 }
 
@@ -47,7 +47,7 @@ define profiles::linux::local_users::users (
     require    => Group[$group],
     #purge_ssh_keys => true,
   }
-  
+
   $users = hiera_hash("linux_users_$group", {})
   if !empty($users) {
     #create_resources ( 'user', $users, $user_defaults )
@@ -56,7 +56,7 @@ define profiles::linux::local_users::users (
       # create individual user resource
       create_resources ( 'user', {$user_title => $user_hash}, $user_defaults )
 
-      # add users ssh keys 
+      # add users ssh keys
       profiles::linux::local_users::authorized_keys{$user_title: group=>$group}
     }
 
@@ -69,8 +69,8 @@ define profiles::linux::local_users::users (
 
 
 define profiles::linux::local_users::authorized_keys (
-  String $user = $title, 
-  String $group, 
+  String $user = $title,
+  String $group,
   String $authorized_keys_base = hiera('profiles::linux::authorized_keys::authorized_keys_base')
 ) {
 

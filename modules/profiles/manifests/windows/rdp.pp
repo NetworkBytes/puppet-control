@@ -17,12 +17,12 @@ class profiles::windows::rdp (
     type   => dword,
     data   => $enable ? { true => "0", false => "1"},
   }
-  
+
   # Terminal Server - NLA
   registry_value { "$regbase\\WinStations\\RDP-Tcp\\UserAuthentication":
     type   => dword,
     data  => bool2num($enable_nla),
   }
-  
+
 }
 

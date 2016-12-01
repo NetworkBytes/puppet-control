@@ -6,7 +6,7 @@ class profiles::elasticsearch::elasticsearch {
   }
 
   # Setup instance 1
-  elasticsearch::instance { "es-01": 
-    config => { 'node.name' => $::fqdn }  
+  elasticsearch::instance { "es-01":
+    config => { 'node.name' => $::fqdn }
   }
 }

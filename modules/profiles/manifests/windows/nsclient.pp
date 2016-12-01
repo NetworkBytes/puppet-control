@@ -5,7 +5,7 @@ class profiles::windows::nsclient
   $package_install = false,
 ) {
 
-  
+
   class { '::nsclient':
     package_install  => $package_install,
     allowed_hosts    => $allowed_hosts,

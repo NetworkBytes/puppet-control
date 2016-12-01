@@ -23,7 +23,7 @@ class profiles::linux::auth (
 
   if $enable {
 
-    # Note: if service wont start, reset sssd, your ptobably 
+    # Note: if service wont start, reset sssd, your ptobably
     # not joined to the domain:
     #       rm /etc/realmd.conf
     #       rm /etc/sssd/sssd.conf

@@ -15,7 +15,7 @@ input {
 }'
 
 
-#FILTER 
+#FILTER
 $config_rsyslog_filter_sample='
 # Sample
 #       "message" => "2016-03-22T14:55:01.440366+11:00 <REDACTED> crond[24406]: (<REDACTED>) CMD ($HOME/scripts/cron/<REDACTED> >/dev/null 2>&1)",
@@ -45,7 +45,7 @@ filter {
 
 #OUTPUT
 $config_output='
-output { 
+output {
   elasticsearch { hosts => ["localhost:9200"] }
   #stdout { codec => rubydebug }
 }'

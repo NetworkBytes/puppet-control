@@ -3,7 +3,7 @@ class profiles::nagios::client (
 ) {
 
   $hosts = "${join(hiera_array('profiles::nagios::client::allowed_hosts', ['127.0.0.1']), ',')}"
- 
+
   # Configure NRPE.cfg
   class {'::nagios::client':
     nagios_server        => hiera('profiles::nagios::server'),

@@ -1,5 +1,5 @@
 class profiles::mssql_download
-{ 
+{
   $baseurl="http://files"
   $local_dir="c:/Source"
   $mount_point="Z:"

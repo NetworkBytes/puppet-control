@@ -5,18 +5,18 @@ class profiles::windows::rpc (
   $regbase   = 'HKLM\Software\Microsoft\Rpc'
   registry_key {"$regbase\\Internet": ensure => present}
 
-  registry_value { "$regbase\\Internet\\Ports":  
-    type => array, 
+  registry_value { "$regbase\\Internet\\Ports":
+    type => array,
     data => $range
-  } 
+  }
 
-  registry_value { "$regbase\\Internet\\PortsInternetAvailable":  
-    type => string, 
+  registry_value { "$regbase\\Internet\\PortsInternetAvailable":
+    type => string,
     data => "Y"
-  } 
+  }
 
-  registry_value { "$regbase\\Internet\\UseInternetPorts":  
-    type => string, 
+  registry_value { "$regbase\\Internet\\UseInternetPorts":
+    type => string,
     data => "Y"
   }
 }

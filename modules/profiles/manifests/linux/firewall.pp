@@ -1,6 +1,6 @@
 class profiles::linux::firewall {
 
-  # RHEL7 uses firewalld, 
+  # RHEL7 uses firewalld,
   # older uses iptables-service
   #if ${os['major']['version']} >= 7 {
     include 'profiles::linux::firewall::firewalld'
@@ -16,7 +16,7 @@ class profiles::linux::firewall::firewalld (
   $enable = true,
   $ensure = 'running'
 ){
-  
+
 
   # define the zone
    firewalld_zone {$zone:
@@ -60,7 +60,7 @@ class profiles::linux::firewall::firewalld (
   }
 
 
-  
+
   class {'firewalld':
     package       => 'firewalld',
     package_ensure => 'installed',
@@ -71,7 +71,7 @@ class profiles::linux::firewall::firewalld (
     #services       => {},
     #rich_rules     => {},
   }
-  
+
 
   # Set the default zone
   if $enable {
@@ -92,13 +92,13 @@ class profiles::linux::firewall::iptables {
   # Call linux_iptables to setup iptables puppet stages
   include 'linux_iptables'
 
-    
+  
   $linux_firewall = hiera_hash('profiles::linux::firewall', false)
   $linux_firewall_defaults = {
   }
 
   if $linux_firewall {
-    # TODO 
+    # TODO
     fail('profiles::linux::firewall::iptables not implemented ')
   } else {
     notify {"Info: no profiles::linux::firewall hash found in hiera for this node":}

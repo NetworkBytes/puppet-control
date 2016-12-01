@@ -45,7 +45,7 @@ class profiles::windows::base (
 
   if $include_puppet_agent   { include profiles::puppet::agent }
 
-  
+
 
 
 }

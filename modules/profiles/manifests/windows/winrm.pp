@@ -4,10 +4,10 @@ class profiles::windows::winrm (
 ) {
 
   class {'winrm_ssl':
-    auth_basic     => $auth_basic,
-    disable_http   => $disable_http,
-    manage_service => true,
-    maxtimeoutms   => 60000,
+    auth_basic          => $auth_basic,
+    disable_http        => $disable_http,
+    manage_service      => true,
+    maxtimeoutms        => 60000,
     maxmemorypershellmb => 2048
   }
 

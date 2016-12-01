@@ -1,4 +1,4 @@
-# MAIN ENTRY POINT 
+# MAIN ENTRY POINT
 # for Base modules
 class profiles::base (
   Boolean $include_base = true

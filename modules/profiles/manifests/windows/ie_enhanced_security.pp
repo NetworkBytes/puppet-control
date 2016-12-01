@@ -9,7 +9,7 @@ class profiles::windows::ie_enhanced_security (
     type => dword,
     data => $val
   }
-  
+
 }
 
 

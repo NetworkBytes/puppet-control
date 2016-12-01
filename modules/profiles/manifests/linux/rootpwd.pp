@@ -8,7 +8,7 @@ class profiles::linux::rootpwd (
   #$root_pwd = hiera('root_pwd', false)
 
   #if $password {
-    user { 'root_password': 
+    user { 'root_password':
       name => 'root',
       password => $password,
     }

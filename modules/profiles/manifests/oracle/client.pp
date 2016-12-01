@@ -6,7 +6,7 @@ class profiles::oracle::client (
   $host,
   $port,
   $servicename,
-  
+
 ) {
 
   file {"$oracle_home\\network\\admin\\sqlnet.ora":

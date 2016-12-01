@@ -13,7 +13,7 @@ class profiles::windows::searchdomains(
 
 
 
- 
+
   validate_array($searchlist)
   $list = join($searchlist, ',')
 

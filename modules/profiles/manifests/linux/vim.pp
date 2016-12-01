@@ -15,4 +15,4 @@ class profiles::linux::vim {
   }
 
 }
-    
+  

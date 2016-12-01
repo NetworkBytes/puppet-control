@@ -7,7 +7,7 @@ class profiles::linux::login_banner {
     mode    => '0644',
     content => template("$module_name/issue.erb")
   }
-  
+
 }
 
 

@@ -11,6 +11,6 @@ class profiles::rsyslog::server (
     perm_file                 => '0604',
     perm_dir                  => '0754',
   }
-  
+
 }
 

@@ -6,18 +6,18 @@ class profiles::windows::proxy (
 ){
 
   validate_re($ensure, '^(enabled|disabled|unmanaged)$', 'valid values for ensure are \'enabled\', \'disabled\', \'unmanaged\'')
-    
+  
   case $ensure {
-    'enabled': 
+    'enabled':
     {
       $proxy_enable = 1
       $proxy_override = join($proxyoverride,";")
       $winhttp_ensure = 'present'
     }
 
-    'disabled': 
+    'disabled':
     {
-      $proxy_enable = 0 
+      $proxy_enable = 0
       $winhttp_ensure = 'absent'
       #winhttp_proxy { 'proxy': ensure => absent}
     }
@@ -30,7 +30,7 @@ class profiles::windows::proxy (
 
       registry_value {   "$regbase\\ProxyEnable": type => dword, data => "$proxy_enable"}
       registry_value {"32:$regbase\\ProxyEnable": type => dword, data => "$proxy_enable"}
-         
+       
       registry_value { "$regbase\\ProxyServer":   data => "$proxyserver"}
       registry_value { "$regbase\\ProxyOverride": data => "$proxy_override"}
 
@@ -46,9 +46,9 @@ class profiles::windows::proxy (
 
 
       # set the system proxy for applications
-      #winhttp_proxy { 'proxy': 
-      #  ensure       => $winhttp_ensure, 
-      #  proxy_server => $winhttp_ensure ? { "absent" => undef, default => $proxyserver}, 
+      #winhttp_proxy { 'proxy':
+      #  ensure       => $winhttp_ensure,
+      #  proxy_server => $winhttp_ensure ? { "absent" => undef, default => $proxyserver},
       #  bypass_list  => $winhttp_ensure ? { "absent" => undef, default => $proxyoverride},
       #}
     }

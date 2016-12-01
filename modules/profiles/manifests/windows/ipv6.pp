@@ -21,7 +21,7 @@ class profiles::windows::ipv6 (
     type   => 'dword',
     data   => $ipv6_data,
   }
-  
+
   reboot {'ipv6':
     subscribe => Registry::Value['ipv6'],
     apply  => finished,

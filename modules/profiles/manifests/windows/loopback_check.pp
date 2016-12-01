@@ -7,8 +7,8 @@ class profiles::windows::loopback_check (
   $data = $ensure ? { /(present|enabled)/ => 1, /(absent|disabled)/ => 0}
 
   $regbase   = 'HKLM\System\CurrentControlSet\Control\Lsa'
-  registry_value { "$regbase\\DisableLoopbackCheck": 
-    type => dword, 
+  registry_value { "$regbase\\DisableLoopbackCheck":
+    type => dword,
     data => "$data"
   }
 }

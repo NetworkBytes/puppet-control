@@ -28,18 +28,18 @@ class profiles::puppet::agent::conf {
     /[Dd][Ee][Vv]/:       { $env = 'develop' }
     default:  { $env = 'production' }
   }
-  
-  
- 
+
+
+
   #notify {"WARNING: Puppet environment will change to $env on the next run, updating $file":}
-  
+
   file_line { "puppet-agent $file":
     ensure => present,
     path => $file,
     match => "^\s*environment\s*=.*$",
     line => "environment = $env"
   }
-  
+
   #file_line { "puppet-agent $file":
   #  ensure => absent,
   #  path => $file,

@@ -11,7 +11,7 @@ class profiles::linux::sudoers (
     ensure   => present,
     priority => 10,
   }
-  
+
   if $linux_sudoers {
     # sudo class
     class {'sudo':
@@ -23,5 +23,5 @@ class profiles::linux::sudoers (
     create_resources ( 'sudo::conf', $linux_sudoers, $linux_sudoers_defaults )
   } else {
     notify {"Info: no profiles::linux::sudoers hash found in hiera for this node":}
-  }  
+  }
 }

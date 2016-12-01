@@ -4,7 +4,7 @@ class profiles::windows::chocolatey (
   $chocolateypkg      = "https://chocolatey.org",
   $chocolateyversion, # 0.9.9.8
   $zipurl             = "https://chocolatey.org/7za.exe",
-  
+
 ){
 
   #TODO: -  work out if the community module supports a local install script
@@ -17,7 +17,7 @@ class profiles::windows::chocolatey (
     command   => template("$module_name/windows/chocolatey/install.ps1.erb"),
   }
 
-  file {$chocolatey_ver_file: 
+  file {$chocolatey_ver_file:
     ensure  => present,
     require => Exec["install-chocolatey"],
   }

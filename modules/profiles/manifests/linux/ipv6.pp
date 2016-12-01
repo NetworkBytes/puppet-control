@@ -5,8 +5,8 @@ class profiles::linux::ipv6 (
 ) {
 
   ensure_resource('file', '/etc/sysctl.d', {
-    ensure => directory, 
-    mode => '0755' 
+    ensure => directory,
+    mode => '0755'
   })
 
   $val = bool2num($enabled)
