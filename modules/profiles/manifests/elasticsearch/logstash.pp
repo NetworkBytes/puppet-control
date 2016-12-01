@@ -2,7 +2,7 @@
 class profiles::elasticsearch::logstash {
 
   class {'logstash':
-     #install_contrib => true
+    #install_contrib => true
   }
 
 # INPUTS

@@ -15,7 +15,7 @@ class profiles::windows::hibernate (
     subscribe  => [ Registry_value["$regbase\\HiberFileSizePercent"],
                     Registry_value["$regbase\\HibernateEnabled"]
                   ],
-    apply  => finished,
-   }
+    apply      => finished,
+  }
 }
 

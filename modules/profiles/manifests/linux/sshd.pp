@@ -29,7 +29,7 @@ class profiles::linux::sshd (
       'HostKey'            => [
         '/etc/ssh/ssh_host_rsa_key',
         '/etc/ssh/ssh_host_ecdsa_key',
-       ],
+      ],
       'ChallengeResponseAuthentication' => 'no',
       'GSSAPIAuthentication' => 'no',
       'GSSAPICleanupCredentials' => 'no',

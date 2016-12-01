@@ -4,7 +4,7 @@ class profiles::rsyslog::client (
   $log_local = true
 ){
 
- class { 'rsyslog::client':
+  class { 'rsyslog::client':
     log_remote                => true,
     log_local                 => $log_local,
     server                    => $server,

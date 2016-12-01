@@ -8,20 +8,20 @@ class profiles::windows::rdp (
 
   # Terminal Server - User Config Errors
   registry_value { "$regbase\\IgnoreRegUserConfigErrors":
-    type   => dword,
-    data   => 1,
+    type => dword,
+    data => 1,
   }
 
   # Terminal Server - Deny Connections
   registry_value { "$regbase\\fDenyTSConnections":
-    type   => dword,
-    data   => $enable ? { true => "0", false => "1"},
+    type => dword,
+    data => $enable ? { true => "0", false => "1"},
   }
 
   # Terminal Server - NLA
   registry_value { "$regbase\\WinStations\\RDP-Tcp\\UserAuthentication":
-    type   => dword,
-    data  => bool2num($enable_nla),
+    type => dword,
+    data => bool2num($enable_nla),
   }
 
 }

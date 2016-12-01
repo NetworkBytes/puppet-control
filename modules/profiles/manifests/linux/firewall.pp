@@ -1,17 +1,4 @@
-class profiles::linux::firewall {
-
-  # RHEL7 uses firewalld,
-  # older uses iptables-service
-  #if ${os['major']['version']} >= 7 {
-    include 'profiles::linux::firewall::firewalld'
-  #} else {
-  #  include 'profiles::linux::firewall::iptables'
-  #}
-}
-
-
-#FIREWALLD
-class profiles::linux::firewall::firewalld (
+class profiles::linux::firewall (
   $zone   = 'puppet_managed',
   $enable = true,
   $ensure = 'running'
@@ -19,7 +6,7 @@ class profiles::linux::firewall::firewalld (
 
 
   # define the zone
-   firewalld_zone {$zone:
+  firewalld_zone { $zone:
     ensure           => present,
     target           => '%%REJECT%%',
     purge_rich_rules => true,
@@ -81,26 +68,4 @@ class profiles::linux::firewall::firewalld (
     }
   }
 
-}
-
-
-
-
-#IPTABLES
-class profiles::linux::firewall::iptables {
-
-  # Call linux_iptables to setup iptables puppet stages
-  include 'linux_iptables'
-
-  
-  $linux_firewall = hiera_hash('profiles::linux::firewall', false)
-  $linux_firewall_defaults = {
-  }
-
-  if $linux_firewall {
-    # TODO
-    fail('profiles::linux::firewall::iptables not implemented ')
-  } else {
-    notify {"Info: no profiles::linux::firewall hash found in hiera for this node":}
-  }
 }

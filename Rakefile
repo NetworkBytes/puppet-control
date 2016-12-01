@@ -34,7 +34,7 @@ PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 
 PuppetLint::RakeTask.new :lint do |config|
-  config.fail_on_warnings = true
+  config.fail_on_warnings = false
   config.ignore_paths = exclude_paths
   config.relative = true
   config.show_ignored = true

@@ -6,8 +6,8 @@ class profiles::windows::smb_security_signature (
   $data = $ensure ? { /(present|enabled)/ => 1, /(absent|disabled)/ => 0}
 
   $regbase   = 'HKLM\System\CurrentControlSet\Services\LanmanWorkstation\Parameters'
-  registry_value { "$regbase\\RequireSecuritySignature":
+  registry_value { "${regbase}\\RequireSecuritySignature":
     type => dword,
-    data => "$data"
+    data => "${data}"
   }
 }
