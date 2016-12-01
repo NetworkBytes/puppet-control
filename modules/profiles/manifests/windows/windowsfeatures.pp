@@ -9,7 +9,7 @@ class profiles::windows::windowsfeatures {
   }
 
  if $::kernelversion =~ /^6.0/ { fail('Windows 2008 (non R2), use ServerManagerCMD.exe') }
-  
+ 
 
   if $windows_features {
     create_resources ( 'windowsfeature', $windows_features, $windows_features_defaults )

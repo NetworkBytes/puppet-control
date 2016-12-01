@@ -3,3 +3,4 @@ modules/*
 .r10k-deploy.json
 **/*.swp
 **/*.DS_Store
+Gemfile.lock
