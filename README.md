@@ -1,11 +1,14 @@
-## Puppet Environment - R10K
+## Puppet Control repository 
 
-Please view the **branches** to see the actual Puppetfile for each environment
+[![Build Status](https://img.shields.io/travis/NetworkBytes/puppet-control.svg)](https://travis-ci.org/NetworkBytes/puppet-control)
+
+
+
 
 the branches represent the actual puppet environments by the use
 of [R10K](https://github.com/puppetlabs/r10k)
 
-R10K pulls together all the dependencies for an environment 
+R10K pulls together all the dependencies for an environment by reading in the Puppetfile 
 
 
 ### Usage
@@ -44,168 +47,20 @@ Display all environments being managed by r10k, and their modules.
 
 
 
-
-#### R10K -Command Help 
-
-    NAME
-        r10k - Killer robot powered Puppet environment deployment
-    
-    USAGE
-            r10k <subcommand> [options]
-    
-    DESCRIPTION
-            r10k is a suite of commands to help deploy and manage puppet code for
-        complex environments.
-    
-    COMMANDS
-        deploy         Puppet dynamic environment deployment
-        help           show help
-        puppetfile     Perform operations on a Puppetfile
-        version        Print the version of r10k
-        (3 hidden commands omitted; show them with --verbose)
-    
-    OPTIONS
-        -c --config     Specify a global configuration file (deprecated, use `r10k deploy -c`)
-           --color      Enable colored log messages
-        -h --help       Show help for this command
-        -t --trace      Display stack traces on application crash
-        -v --verbose    Set log verbosity. Valid values: fatal, error, warn, notice, info, debug, debug1, debug2
-
-
-#### R10K Depoly - Command Help
-    
-    NAME
-        deploy - Puppet dynamic environment deployment
-    
-    USAGE
-        r10k deploy <subcommand>
-    
-    DESCRIPTION
-        `r10k deploy` implements the Git branch to Puppet environment workflow
-        (https://puppetlabs.com/blog/git-workflow-and-puppet-environments/).
-    
-    SUBCOMMANDS
-        display         Display environments and modules in the deployment
-        environment     Deploy environments and their dependent modules
-        module          Deploy modules in all environments
-
-
-
-
-
-
-
-
-
 ## Puppetfile
 
 
 Puppetfiles are a simple Ruby based DSL that specifies a list of modules to
-install, what version to install, and where to fetch them from. r10k can use a
-Puppetfile to install a set of Puppet modules for local development, or they can
-be used with r10k environment deployments to install additional modules into a
-given environment.
+install, what version to install, and where to fetch them from. 
 
 Unlike librarian-puppet, the r10k implementation of Puppetfiles does not include
 dependency resolution, but it is on the roadmap.
-
-When directly working with Puppetfiles, you can use the `r10k puppetfile`
-subcommand to interact with a Puppetfile.
-
-When using r10k's deploy functionality, interacting with Puppetfiles is handled
-on a case by case basis.
 
 Because the Puppetfile format is actually implemented using a Ruby DSL any valid
 Ruby expression can be used. That being said, being a bit too creative in the
 DSL can lead to surprising (read: bad) things happening, so consider keeping it
 simple.
 
-### Commands
---------
-
-Puppetfile subcommands assume that the Puppetfile to operate on is in the
-current working directory and modules should be installed in the 'modules'
-directory relative to the current working directory.
-
-Install or update all modules in a given Puppetfile
-into ./modules)
-
-    r10k puppetfile install
-
-Verify the Puppetfile syntax
-
-    r10k puppetfile check
-
-Remove any modules in the 'modules' directory that are not specified in the
-Puppetfile:
-
-    r10k puppetfile purge
-
-Global settings
----------------
-
-The following settings can be used to control how the Puppetfile installs and
-handles modules.
-
-### forge
-
-The `forge` setting specifies which server that Forge based modules are fetched
-from. This is currently a noop and is provided for compatibility with
-librarian-puppet, but will be made functional in a future version. See
-[GH-106](https://github.com/adrienthebo/r10k/issues/106) for more information.
-
-### moduledir
-
-The `moduledir` setting specifies where modules from the Puppetfile will be
-installed. This defaults to the `modules` directory relative to the Puppetfile.
-If the path is absolute then the modules will be installed to that absolute
-path, otherwise it's assumed that the `moduledir` setting should be relative and
-the modules will be installed in that directory relative to the Puppetfile.
-
-The moduledir setting should be placed before any modules are declared.
-
-Install modules to an absolute path:
-
-```ruby
-moduledir '/etc/puppet/modules'
-
-mod 'branan/eight_hundred' # will be installed into '/etc/puppet/modules/eight_hundred'
-```
-
-Install modules to a relative path:
-
-```ruby
-moduledir 'thirdparty'
-
-mod 'branan/eight_hundred' # will be installed into `dirname /path/to/Puppetfile`/thirdparty/eight_hundred
-```
-
-**Note**: support for a relative moduledir was added in r10k 1.4.0; the behavior
-of a relative moduledir path is undefined on earlier versions of r10k.
-
-Module types
-------------
-
-r10k can install Puppet modules from a number of different sources. Right now
-modules can be installed via Git, SVN, and from the Puppet Forge.
-
-### Git
-
-Git repositories that contain a Puppet module can be cloned and used as modules.
-When Git is used, the module version can be specified by using `:ref`, `:tag`,
-`:commit`, and `:branch`.
-
-When a module is installed using `:ref`, r10k uses some simple heuristics to
-determine the type of Git object that should be checked out. This can be used
-with a git commit, branch reference, or a tag.
-
-When a module is installed using `:tag` or `:commit`, r10k assumes that the
-given object is a tag or commit and can do some optimizations around fetching
-the object. If the tag or commit is already available r10k will skip network
-operations when updating the repo, which can speed up install times.
-
-Module versions can also be specified using `:branch`. This behaves similarly to
-`:ref`, and is mainly useful for clarity.
 
 #### Examples
 
