@@ -1,0 +1,67 @@
+---
+
+classes:
+  - profiles::elasticsearch::logstash
+  - profiles::elasticsearch::elasticsearch
+  - profiles::elasticsearch::kibana
+  - profiles::haproxy
+
+
+# FIREWALL
+profiles::linux::firewall::ports:
+  http:
+    port: 80
+
+
+
+# YUM REPOSITORIES
+profiles::linux::yumrepos::repos:
+  elasticsearch-2.x:
+    descr: 'Elasticsearch repository for 2.x packages'
+    baseurl: 'https://packages.elastic.co/elasticsearch/2.x/centos'
+    gpgkey: 'https://packages.elastic.co/GPG-KEY-elasticsearch'
+  logstash-2.2:
+    descr: 'Logstash repository for 2.2.x packages'
+    baseurl: 'http://packages.elastic.co/logstash/2.2/centos'
+    gpgkey: 'http://packages.elastic.co/GPG-KEY-elasticsearch'
+  kibana-4.4:
+    descr: 'Kibana repository for 4.4.x packages'
+    baseurl: 'http://packages.elastic.co/kibana/4.4/centos'
+    gpgkey: 'http://packages.elastic.co/GPG-KEY-elasticsearch'
+
+
+# PACKAGES
+profiles::linux::packages:
+  #logstash: {}
+  #elasticsearch: {}
+  kibana: {}
+  java-1.8.0-oracle.x86_64: {}
+
+
+# HAPROXY FRONTENDS
+profiles::haproxy::frontends:
+  kibana_frontend:
+    ipaddress: '*'
+    ports: 
+      - 80
+    options:
+      - default_backend: kibana_backend
+
+
+# HAPROXY BACKENDS
+profiles::haproxy::backends:
+  kibana_backend:
+    options:
+      - mode: "http"
+      - server: "localhost 127.0.0.1:5601 check"
+
+
+
+# SELLINUX PORTS
+profiles::linux::selinux::bools:
+  haproxy_connect_any:
+    ensure: on
+    persistent: true
+
+
+

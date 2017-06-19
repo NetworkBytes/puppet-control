@@ -1,0 +1,21 @@
+---
+
+
+# RESOLVE.CONF
+profiles::linux::resolvconf::searchpath:
+  - '<REDACTED>'
+
+# RESOLVE.CONF
+profiles::linux::resolvconf::nameservers:
+  - '<REDACTED>'
+
+# AD AUTHENTICATION
+profiles::linux::auth::domain: prod
+profiles::linux::auth::computer_ou: OU=Linux Computers
+profiles::linux::auth::domain_join_user: joinDomain
+profiles::linux::auth::domain_join_password: <REDACTED>
+
+# NRPE Allowed hosts
+profiles::nagios::client::allowed_hosts:
+  - <REDACTED>
+

@@ -1,0 +1,232 @@
+---
+
+# FIX THESE MODULES
+#profiles::linux::base::include_aliases: false
+profiles::linux::base::include_resolvconf: false
+profiles::linux::base::include_snmpd: false
+
+
+
+
+
+profiles::linux::aliases:
+  root:
+    value: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/bkr9/gkJC3gWZAAAAG8wbQYJKoZIhvcNAQcGoGAwXgIBADBZBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDHpy4zRiPUmoRkN3UQIBEIAszjsdMlJRCkCUFdvmnmEU4i70TDfHcqxShBawGuOhZK1zBrLUW27aTL8oEek=]
+
+
+
+# ROOT PASSWORD
+profiles::linux::rootpwd::password: ENC[KMS,AQECAHjO+7I9tW3IvfhnO37cWdQ7xxbMqy5/bkr9/gkJC3gWZAAAAGowaAYJKoZIhvcNAQcGoFswWQIBADBUBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDLf9TaCluG6Lkhi8TgIBEIAnfMOpM7Yo6WoRECAHWitH4G4iGEjiuegh7X9EMw29FcCoHg8laZPd]
+
+
+
+# DEFAULT LINUX PACKAGES
+profiles::linux::packages:
+  bash-completion: {}
+  wget: {}
+  traceroute: {}
+  tmpwatch: {}
+  rsync: {}
+  crontabs: {}
+  #logwatch: {}
+  bind-utils: {}
+  unzip: {}
+  telnet: {}
+  hping3: {}
+
+
+# LINUX GROUPS
+profiles::linux::local_groups:
+  admins: {}
+
+
+# CRON - sample
+#profiles::linux::cron:
+#  sample:
+#    command: '# sample puppet cron'
+#    user: root
+#    minute: '*/5'
+
+
+
+# HOSTS
+profiles::linux::hosts:
+  localhost_ipv4:
+    name: localhost
+    ip: 127.0.0.1
+    host_aliases:
+      - localhost.localdomain
+      - localhost4
+      - localhost4.localdomain4
+  localhost_ipv6:
+    name: localhost6
+    ip: '::1'
+    host_aliases:
+      - localhost6.localdomain6
+  hostname:
+    name: '%{hostname}'
+    comment: machines hostname and fqdn point to loopback
+    ip: 127.0.0.1
+    host_aliases:
+      - '%{fqdn}'
+
+
+
+# NTP
+profiles::linux::ntp::servers:
+  - '0.au.pool.ntp.org'
+  - '1.au.pool.ntp.org'
+  - '2.au.pool.ntp.org'
+  - '3.au.pool.ntp.org'
+
+
+# SELINUX
+profiles::linux::selinux::mode: enforcing
+
+# SELINUX FCONTEXTS
+profiles::linux::selinux::fcontexts:
+  # bug in nrpe check_disk package, missing selinux context
+  # context might have to be nagios_checkdisk_plugin_exec_t
+  nrpe_check_disk_context:
+    pathname: /usr/lib/nagios/plugins/check_disk
+    context: nagios_unconfined_plugin_exec_t
+
+
+# RSYSLOG CLIENT
+profiles::rsyslog::client::server: loghost%{host.site_number}
+
+
+# PROXY
+profiles::linux::proxy::yum::enabled: false
+#profiles::linux::proxy::yum::proxy_address: 'proxy:3128'
+profiles::linux::proxy::profiles::enabled: false
+#profiles::linux::proxy::profiles::proxy_address: 'proxy:3128'
+#profiles::linux::proxy::bypass:
+#  - '127.0.0.1'
+#  - 'localhost'
+#  - 'puppet'
+
+
+# YUM REPOSITORIES
+#profiles::linux::yumrepos::epel_proxy: "%{hiera('profiles::linux::proxy::profiles::proxy_address')}"
+profiles::linux::yumrepos::repos:
+
+  puppetlabs-pc1:
+    descr: 'Puppet Labs PC1 Repository el 7 - $basearch'
+    baseurl: 'http://yum.puppetlabs.com/el/7/PC1/$basearch'
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs'
+
+  base:
+    descr: 'CentOS-$releasever - Base'
+    mirrorlist: 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra'
+    gpgcheck: 1
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7'
+  updates:
+    descr: 'CentOS-$releasever - Updates'
+    mirrorlist: 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates&infra=$infra'
+    gpgcheck: 1
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7'
+  extras:
+    descr: 'CentOS-$releasever - Extras'
+    mirrorlist: 'http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra'
+    gpgcheck: 1
+    gpgkey: 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7'
+
+
+
+  
+# SNMP
+#profiles::linux::snmpd::ro_community: '<REDACTED>'
+#profiles::linux::snmpd::ro_network: '<REDACTED>'
+#profiles::linux::snmpd::contact: '<REDACTED>'
+#profiles::linux::snmpd::location: '<REDACTED>'
+
+
+
+# TIMEZONE
+profiles::linux::timezone::zone: 'Australia/Sydney'
+
+
+# SUDOERS default groups which will be applied to **ALL** host
+profiles::linux::sudoers:
+  puppetagent:
+    content:
+      - 'Cmnd_Alias PUPPETAGENT_CMD = /usr/local/bin/puppet agent *'
+      - 'ALL ALL=NOPASSWD: PUPPETAGENT_CMD'
+  admins:
+    content: '%admins   ALL=(ALL)  ALL'
+  #domainiadmin_domain:
+  #  content: '%%{hiera("profiles::linux::auth::domain")}\\Domain\ Admins   ALL=(ALL)  ALL'
+
+
+# SSSD AUTHENTICATION
+profiles::linux::auth::enable: false
+#profiles::linux::auth::computer_ou: OU=Linux Computers
+
+# SSH access group
+profiles::linux::sshd::allowgroups:
+  - '"admins"'
+  #- '"domain admins"'
+
+
+# SSH default groups which will be applied to **ALL** host
+profiles::linux::sshd::authorizedkeysfile: '/etc/ssh/authorized_keys/%u/authorized_keys'
+ 
+# DEFAULT GROUPS OF USERS to include on **ALL** hosts
+profiles::linux::authorized_keys::authorized_keys_base: '/etc/ssh/authorized_keys'
+profiles::linux::local_users::include_users_in_group:
+  - admins
+
+
+# DIRECTORIES
+profiles::linux::directories:
+  /opt: {}
+  
+
+# FIREWALLD Services
+profiles::linux::firewall::services:
+  ssh:
+    service: ssh
+
+
+# FIREWALLD Ports
+profiles::linux::firewall::ports:
+  nrpe:
+    port: 5666
+
+# VIM
+profiles::linux::vim::options:
+  - 'hlsearch'
+  - 'showcmd'
+  - 'showmatch'
+  - 'ignorecase'
+  - 'smartcase'
+  - 'incsearch'
+  - 'autowrite'
+  - 'hidden'
+  - 'number'
+  - 'paste'
+  - 'tabstop=2'
+  - 'expandtab'
+
+
+# NAGIOS CLIENT - NRPE Allowed hosts
+profiles::nagios::client::allowed_hosts:
+ #- <REDACTED>
+ - 127.0.0.1
+
+profiles::nagios::checks::builtin:
+  conntrack: {}
+  cpu: {}
+  disk: {}
+  load: {}
+  ntp_time:
+    args: '-H ntp' 
+  #ping: {}
+  #ping6: {}
+  ram: {}
+  swap: {}
+
+profiles::nagios::checks::custom:
+  users:
+    args: '-w 100 -c 200'

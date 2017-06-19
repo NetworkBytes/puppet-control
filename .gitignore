@@ -1,1 +1,6 @@
-**/.DS_Store
+modules/*
+!modules/profiles
+.r10k-deploy.json
+**/*.swp
+**/*.DS_Store
+Gemfile.lock

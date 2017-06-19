@@ -1,0 +1,14 @@
+---
+
+classes:
+  - profiles::base
+
+
+# Set to false to exclude the base profiles
+profiles::base::include_base: true
+
+
+
+# NAGIOS
+profiles::nagios::server: '%{host.environment_raw}-nagios%{host.site_number}-1'
+

@@ -1,0 +1,79 @@
+---
+
+classes:
+  - profiles::apache
+  - profiles::nagios::server
+
+
+
+# PACKAGES
+#profiles::linux::packages:
+  # nagios installed by module
+  # nagios: {}
+  # nagios-plugins: {}
+
+
+
+# FIREWALL
+profiles::linux::firewall::services:
+  http:
+    service: http
+
+# SELINUX
+profiles::linux::selinux::mode: permissive
+
+
+# APACHE MODULES
+profiles::apache::modules:
+  - php
+
+
+# APACHE VHOSTS
+profiles::apache::vhosts:
+  default_http:
+    port: 80
+    docroot: '/var/www/html' 
+    access_log_file: 'access_log'
+    priority: '15'
+
+    aliases:
+      - 'cgi-bin':
+        scriptalias: '/cgi-bin'
+        path: '/var/www/cgi-bin'
+      - 'Nagios cgi-bin':
+        scriptalias: '/nagios/cgi-bin/'
+        path: '/usr/lib64/nagios/cgi-bin/'
+      - 'Nagios':
+        alias: '/nagios'
+        path: '/usr/share/nagios/html'
+
+    directories:
+      - 'Nagios cgi-bin directory':
+        path: '/usr/lib64/nagios/cgi-bin/'
+        options: 'ExecCGI'
+        allow_override:
+          - 'None'
+        order:
+          -  'Allow'
+          -  'Deny'
+        allow: 'from all'
+        auth_name: 'Nagios Access'
+        auth_type: 'Basic'
+        auth_user_file: '/etc/nagios/passwd'
+        auth_require: 'valid-user'
+
+      - 'Nagios base directory':
+        path: '/usr/share/nagios/html'
+        options: 'None'
+        allow_override:
+          - 'None'
+        order: 
+          - 'Allow'
+          - 'Deny'
+        allow: 'from all'
+        auth_name: 'Nagios Access'
+        auth_type: 'Basic'
+        auth_user_file: '/etc/nagios/passwd'
+        auth_require: 'valid-user'
+
+

@@ -1,0 +1,133 @@
+fixtures:
+  symlinks:
+    profiles: "#{source_dir}"
+  forge_modules:
+    windows_env:
+      repo: "badgerious/windows_env"
+      ref: "2.2.2"
+    local_security_policy:
+      repo: "cannonps/local_security_policy"
+      ref: "0.3.1"
+    yum:
+      repo: "ceritsc/yum"
+      ref: "0.9.8"
+    chocolatey:
+      repo: "chocolatey/chocolatey"
+      ref: "1.2.6"
+    firewalld:
+      repo: "crayfishx/firewalld"
+      ref: "3.1.8"
+    elasticsearch:
+      repo: "elasticsearch/elasticsearch"
+      ref: "0.15.0"
+    file_concat:
+      repo: "ispavailability/file_concat"
+      ref: "0.3.0"
+    selinux:
+      repo: "jfryman/selinux"
+      ref: "0.4.0"
+    windows_isos:
+      repo: "jriviere/windows_isos"
+      ref: "0.0.4"
+    htpasswd:
+      repo: "leinaddm/htpasswd"
+      ref: "0.0.3"
+    win_facts:
+      repo: "liamjbennett/win_facts"
+      ref: "0.0.2"
+    download_file:
+      repo: "puppet/download_file"
+      ref: "2.0.0"
+    iis:
+      repo: "puppet/iis"
+      ref: "1.4.0"
+    sslcertificate:
+      repo: "puppet/sslcertificate"
+      ref: "2.1.1"
+    windows_firewall:
+      repo: "puppet/windows_firewall"
+      ref: "1.0.3"
+    windowsfeature:
+      repo: "puppet/windowsfeature"
+      ref: "2.0.0"
+    acl:
+      repo: "puppetlabs/acl"
+      ref: "1.1.2"
+    apache:
+      repo: "puppetlabs/apache"
+      ref: "1.10.0"
+    apt:
+      repo: "puppetlabs/apt"
+      ref: "2.3.0"
+    concat:
+      repo: "puppetlabs/concat"
+      ref: "2.2.0"
+    dism:
+      repo: "puppetlabs/dism"
+      ref: "1.2.0"
+    dsc:
+      repo: "puppetlabs/dsc"
+      ref: "1.2.0"
+    firewall:
+      repo: "puppetlabs/firewall"
+      ref: "1.8.1"
+    haproxy:
+      repo: "puppetlabs/haproxy"
+      ref: "1.5.0"
+    java:
+      repo: "puppetlabs/java"
+      ref: "1.6.0"
+    lvm:
+      repo: "puppetlabs/lvm"
+      ref: "0.7.0"
+    ntp:
+      repo: "puppetlabs/ntp"
+      ref: "6.0.0"
+    powershell:
+      repo: "puppetlabs/powershell"
+      ref: "2.1.0"
+    reboot:
+      repo: "puppetlabs/reboot"
+      ref: "1.2.1"
+    registry:
+      repo: "puppetlabs/registry"
+      ref: "1.1.3"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "4.13.1"
+    wsus_client:
+      repo: "puppetlabs/wsus_client"
+      ref: "1.0.2"
+    snmp:
+      repo: "razorsedge/snmp"
+      ref: "3.6.0"
+    datacat:
+      repo: "richardc/datacat"
+      ref: "0.6.2"
+    resolv_conf:
+      repo: "saz/resolv_conf"
+      ref: "3.0.5"
+    rsyslog:
+      repo: "saz/rsyslog"
+      ref: "5.0.0"
+    ssh:
+      repo: "saz/ssh"
+      ref: "2.9.1"
+    sudo:
+      repo: "saz/sudo"
+      ref: "3.1.0"
+    timezone:
+      repo: "saz/timezone"
+      ref: "3.3.0"
+    vim:
+      repo: "saz/vim"
+      ref: "2.4.0"
+    epel:
+      repo: "stahnma/epel"
+      ref: "1.2.2"
+    sysctl:
+      repo: "thias/sysctl"
+      ref: "1.0.6"
+    realmd:
+      repo: "walkamongus/realmd"
+      ref: "0.1.3"

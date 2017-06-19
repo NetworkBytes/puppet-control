@@ -1,0 +1,32 @@
+---
+
+
+# RESOLVE.CONF
+profiles::linux::resolvconf::searchpath:
+  - 'dev'
+  - '<REDACTED>'
+profiles::linux::resolvconf::nameservers:
+  - '<REDACTED>'
+
+
+# AD AUTHENTICATION
+profiles::linux::auth::domain: <REDACTED>
+profiles::linux::auth::computer_ou: OU=Dev,OU=Linux Computers
+profiles::linux::auth::domain_join_user: joinDomain
+profiles::linux::auth::domain_join_password: <REDACTED>
+
+
+# SSH access group
+profiles::linux::sshd::allowgroups:
+  - '"developers"'
+
+
+# SUDOERS
+profiles::linux::sudoers:
+  projects:
+    content: '%<REDACTED>   ALL=(ALL)  ALL'
+
+# NRPE Allowed hosts
+profiles::nagios::client::allowed_hosts:
+  - <REDACTED>
+
